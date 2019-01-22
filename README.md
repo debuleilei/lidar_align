@@ -1,3 +1,7 @@
+建图功能不够鲁棒，因此使用时需在室内等强约束条件环境下进行，不便于无人驾驶汽车的lidar与imu标定，适合机器人、无人机的lidar-imu标定。
+
+本人拟在此方案上改进，建图时采用ndt变换，使之便于汽车标定使用，先挖坑。
+
 # lidar_align
 
 ## A simple method for finding the extrinsic calibration between a 3D lidar and a 6-dof pose sensor
