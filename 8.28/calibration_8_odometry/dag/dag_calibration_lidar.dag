@@ -1,0 +1,31 @@
+# Define all coms in DAG streaming.
+module_config {
+    module_library : "lib/libeight_test.so"
+
+    components {
+        comname : "comlidar_eight"
+        comclass : "Compeight_lidar"
+        confpath : "conf/velodyne16_left.conf"        
+        receiver : {
+          inchannelnames : ["/sensor/velodyne16/right/PointCloud2",
+           "/sensor/velodyne16/left/PointCloud2",
+           "/sensor/novatel/inspva"]
+          inqosfilter : "SimpleFilter"
+          datafusionoption : {
+              queue_size : 1
+              window_time_ms : 10
+          }
+        }
+
+        sender : {
+            outchannelnames : ["/sensor/velodyne16/back_left/PointCloud2"]
+        }
+    }
+    channels {
+        channelname : "/sensor/velodyne16/back_trans/PointCloud2"
+        msgtype : "adu.common.sensor.PointCloud"
+    }
+
+    
+}
+
