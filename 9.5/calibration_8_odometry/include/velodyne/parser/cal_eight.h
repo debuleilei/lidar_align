@@ -49,7 +49,7 @@ public:
     bool compute_utm (vector<double>& latilong,utm& utm);   
     Eigen::Matrix4d sent_x_y_angle(vector<Eigen::Matrix2d>& r,vector<Eigen::Matrix2d>& lidar,vector<utm>& tins,double li_height);    
     void filter_ground(pcl::PointCloud<pcl::PointXYZ>::Ptr& points,pcl::PointCloud<pcl::PointXYZ>::Ptr& points_filter);
-    void compute_score(Eigen::Affine3d trans,double score);
+    void compute_score(vector<Eigen::Affine3d>& trans,double& score);
 	cal_eight();    
 public:
   vector<double> angle;

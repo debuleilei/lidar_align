@@ -29,17 +29,48 @@ bool  cal_eight::compute_utm (vector<double>& latilong,utm& utm)
    
 }
 
-void cal_eight::compute_score(Eigen::Affine3d trans,double score)
+void cal_eight::compute_score(vector<Eigen::Affine3d>& trans,double& score)
 {
-    Eigen::Matrix3d rotation_matrix;
-    rotation_matrix=trans.matrix().block<3,3>(0,0);
-    Eigen::Vector3d eulerAngle=rotation_matrix.eulerAngles(2,1,0);
-    eulerAngle*=(180/PI);
-    cout<<"angle:"<<eulerAngle<<endl;
+    Eigen::Vector3d angle_min;
+    Eigen::Vector3d t_min;
+    for(auto t:trans)
+    {        
+        Eigen::Matrix3d rotation_matrix;
+        rotation_matrix=t.matrix().block<3,3>(0,0);
+        Eigen::Vector3d eulerAngle=rotation_matrix.eulerAngles(2,1,0);
+        eulerAngle*=(180/PI);
+        if(eulerAngle(0)>170)
+        {
+            eulerAngle(0)-=180;
+            eulerAngle(1)+=180;
+            eulerAngle(2)+=180;
+        }
 
-    Eigen::Vector3d trans_vec(trans(0,3),trans(1,3),trans(2,3));
+        // cout<<"angle:"<<eulerAngle<<endl;
 
-    cout<<"norm:"<<trans_vec.norm()<<endl;
+        Eigen::Vector3d trans_vec(t(0,3),t(1,3),t(2,3));
+
+        // cout<<"norm:"<<trans_vec.norm()<<endl;
+
+
+        angle_min+=eulerAngle;
+        t_min+=trans_vec;
+       
+    }
+    cout<<"angle_error:"<<angle_min/trans.size()<<endl;
+    cout<<"trans_error"<<t_min/trans.size()<<endl;
+
+    double angle_mean=(angle_min/trans.size()).norm();
+    double tran_mean=(t_min/trans.size()).norm();
+    if (angle_mean>0.5 || tran_mean>0.05)
+    {
+        score=0;
+    }
+    else
+    {
+        score=100-100*angle_mean-1000*tran_mean;
+    }
+    cout<<"sroc:"<<score<<endl;
 
 }
 
@@ -52,7 +83,7 @@ void cal_eight::filter_ground(pcl::PointCloud<pcl::PointXYZ>::Ptr& points,pcl::P
             points_filter->push_back(point);
         }
     }
-    cout<<"before filter:"<<points->points.size()<<" "<<"after filter:"<<points_filter->points.size()<<endl;
+    // cout<<"before filter:"<<points->points.size()<<" "<<"after filter:"<<points_filter->points.size()<<endl;
 }
 
 Eigen::Matrix4d cal_eight::sent_x_y_angle(vector<Eigen::Matrix2d>& r,vector<Eigen::Matrix2d>& lidar,vector<utm>& tins,double li_height)

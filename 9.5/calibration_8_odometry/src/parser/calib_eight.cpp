@@ -725,6 +725,8 @@ std::shared_ptr< adu::common::sensor::PointCloud>& point_cloud_fusion){
          tmp_back->clear();
         *tmp_back=*amp+*data_back;
 
+        
+
         if(m.iter<=20)
         {
           pcl::PointCloud<pcl::PointXYZ>::Ptr amp_(new pcl::PointCloud<pcl::PointXYZ>),
@@ -733,7 +735,7 @@ std::shared_ptr< adu::common::sensor::PointCloud>& point_cloud_fusion){
           m.filter_ground(data_back,data_back_);
           // pcl::io::savePLYFile ("turn_lidar.ply", *amp_);
           // pcl::io::savePLYFile ("back_lidar.ply", *data_back_);
-          cout<<"start compute the score*******"<<endl;
+          
           
           Eigen::Affine3d deta_trans;         
           pcTransEstimator es;
@@ -742,7 +744,8 @@ std::shared_ptr< adu::common::sensor::PointCloud>& point_cloud_fusion){
           m.deta_trans.push_back(deta_trans);
           if(m.iter==20)
           {
-            double score=0;
+            cout<<"start compute the score*******"<<endl;
+            double score=10;
             m.compute_score(m.deta_trans,score);
             cout<<"score:"<<score<<endl;
           }         
