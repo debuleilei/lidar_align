@@ -1,0 +1,19 @@
+# ieout: /home/caros/data/input.ieout
+# proj: +proj=utm +zone=50 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs
+transform:
+  translation:
+    x: 0.006882668024355367
+    y: 1.57174159063088
+    z: 1
+  rotation:
+    x: -0.008256823841205185
+    y: 0.007219647907733199
+    z: 0.6919277195431859
+    w: 0.7218834618357107
+header:
+  seq: 0
+  stamp:
+    secs: 1499944254
+    nsecs: 546230915
+  frame_id: novatel
+child_frame_id: velodyne64
