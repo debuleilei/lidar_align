@@ -1,0 +1,81 @@
+module_config {
+    module_library : "lib/libeight_test.so"
+    components {
+        comname : "comtransform_back"
+        comclass : "Comptransform_pointcloud"
+        confpath : "/home/caros/baidu/adu/microcar/conf/velodyne16_back.conf"     
+        receiver : {
+          inchannelnames : ["/sensor/velodyne16/back/PointCloud2"]
+          inqosfilter : "PassThrough"
+        }
+
+        sender : {
+            outchannelnames : ["/sensor/velodyne16/back_trans/PointCloud2"]
+        }
+    }
+    channels {
+        channelname : "/sensor/velodyne16/back_trans/PointCloud2"
+        msgtype : "adu.common.sensor.PointCloud"
+    }
+    components {
+        comname : "comtransform_left"
+        comclass : "Comptransform_pointcloud"
+        confpath : "/home/caros/baidu/adu/microcar/conf/velodyne16_left.conf"        
+        receiver : {
+          inchannelnames : ["/sensor/velodyne16/left/PointCloud2"]
+          inqosfilter : "PassThrough"
+        }
+
+        sender : {
+            outchannelnames : ["/sensor/velodyne16/left_trans/PointCloud2"]
+        }
+    }
+    channels {
+        channelname : "/sensor/velodyne16/left_trans/PointCloud2"
+        msgtype : "adu.common.sensor.PointCloud"
+    }
+   
+    components {
+        comname : "comtransform_right"
+        comclass : "Comptransform_pointcloud"
+        confpath : "/home/caros/baidu/adu/microcar/conf/velodyne16_right.conf"        
+        receiver : {
+          inchannelnames : ["/sensor/velodyne16/right/PointCloud2"]
+          inqosfilter : "PassThrough"
+        }
+
+        sender : {
+            outchannelnames : ["/sensor/velodyne16/right_trans/PointCloud2"]
+        }
+    }
+    channels {
+        channelname : "/sensor/velodyne16/right_trans/PointCloud2"
+        msgtype : "adu.common.sensor.PointCloud"
+    }
+
+    
+    components {
+        comname : "comadd_eight"
+        comclass : "Compvelodyne_add"
+        confpath : "/home/caros/baidu/adu/microcar/conf/velodyne16_right.conf"          
+        receiver : {
+          inchannelnames : ["/sensor/velodyne16/left_trans/PointCloud2",
+           "/sensor/velodyne16/right_trans/PointCloud2",
+           "/sensor/velodyne16/back_trans/PointCloud2"]
+          inqosfilter : "SimpleFilter"
+          datafusionoption : {
+              queue_size : 1
+              window_time_ms : 10
+          }
+        }
+
+        sender : {
+            outchannelnames : ["/sensor/velodyne16/add_eight/PointCloud2"]
+        }
+    }
+    channels {
+        channelname : "/sensor/velodyne16/add_eight/PointCloud2"
+        msgtype : "adu.common.sensor.PointCloud"
+    }
+    
+}
