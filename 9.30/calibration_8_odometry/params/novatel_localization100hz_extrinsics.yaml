@@ -1,0 +1,19 @@
+# ieout: /home/caros/data/input.ieout
+# proj: +proj=utm +zone=50 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs
+transform:
+  translation:
+    x: 0
+    y: 0
+    z: 0
+  rotation:
+    x: 0
+    y: 0
+    z: 0
+    w: 1 
+header:
+  seq: 0
+  stamp:
+    secs: 1499944254
+    nsecs: 546230915
+  frame_id: perception_localization_100hz
+child_frame_id: novatel 
